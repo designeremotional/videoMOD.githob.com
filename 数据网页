@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社交媒体账号数据大屏</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    
+    <!-- 配置Tailwind自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#24292e',
+                        secondary: '#fafbfc',
+                        accent: '#0366d6',
+                       抖音: '#000000',
+                        微信视频号: '#07C160',
+                        快手: '#00C6FF',
+                        card: '#ffffff',
+                        'card-hover': '#f5f5f5'
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-shadow {
+                box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            }
+            .card-shadow-hover {
+                box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            }
+            .grid-dashboard {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-primary min-h-screen">
+    <!-- 顶部导航栏 -->
+    <header class="bg-primary text-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <i class="fa fa-bar-chart text-2xl"></i>
+                <h1 class="text-xl font-bold">社交媒体数据大屏</h1>
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:flex items-center space-x-4">
+                    <span class="flex items-center"><i class="fa fa-calendar-o mr-1"></i> <span id="current-date">2023-06-01</span></span>
+                    <span class="flex items-center"><i class="fa fa-clock-o mr-1"></i> <span id="current-time">00:00:00</span></span>
+                </div>
+                <button class="bg-accent hover:bg-opacity-90 text-white px-3 py-1 rounded transition duration-200">
+                    <i class="fa fa-refresh mr-1"></i>刷新数据
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- 概览卡片 -->
+        <section class="mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 抖音卡片 -->
+                <div class="bg-抖音 bg-opacity-10 rounded-lg p-5 border border-抖音 border-opacity-20 transition duration-300 hover:shadow-lg">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h2 class="text-lg font-semibold text-抖音">抖音账号</h2>
+                            <p class="text-sm text-gray-600">@创意视频工作室</p>
+                        </div>
+                        <i class="fa fa-play-circle-o text-4xl text-抖音"></i>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 text-center">
+                        <div>
+                            <p class="text-3xl font-bold text-抖音">24.5w</p>
+                            <p class="text-sm text-gray-600">粉丝数</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-抖音">+1.2w</p>
+                            <p class="text-sm text-gray-600">月增长</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-抖音">186</p>
+                            <p class="text-sm text-gray-600">作品数</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-抖音">4.8%</p>
+                            <p class="text-sm text-gray-600">互动率</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 微信视频号卡片 -->
+                <div class="bg-微信视频号 bg-opacity-10 rounded-lg p-5 border border-微信视频号 border-opacity-20 transition duration-300 hover:shadow-lg">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h2 class="text-lg font-semibold text-微信视频号">微信视频号</h2>
+                            <p class="text-sm text-gray-600">创意生活</p>
+                        </div>
+                        <i class="fa fa-weixin text-4xl text-微信视频号"></i>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 text-center">
+                        <div>
+                            <p class="text-3xl font-bold text-微信视频号">12.8w</p>
+                            <p class="text-sm text-gray-600">粉丝数</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-微信视频号">+0.8w</p>
+                            <p class="text-sm text-gray-600">月增长</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-微信视频号">124</p>
+                            <p class="text-sm text-gray-600">作品数</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-微信视频号">3.5%</p>
+                            <p class="text-sm text-gray-600">互动率</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 快手卡片 -->
+                <div class="bg-快手 bg-opacity-10 rounded-lg p-5 border border-快手 border-opacity-20 transition duration-300 hover:shadow-lg">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h2 class="text-lg font-semibold text-快手">快手账号</h2>
+                            <p class="text-sm text-gray-600">@创意小视频</p>
+                        </div>
+                        <i class="fa fa-video-camera text-4xl text-快手"></i>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 text-center">
+                        <div>
+                            <p class="text-3xl font-bold text-快手">18.3w</p>
+                            <p class="text-sm text-gray-600">粉丝数</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-快手">+0.95w</p>
+                            <p class="text-sm text-gray-600">月增长</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-快手">215</p>
+                            <p class="text-sm text-gray-600">作品数</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-快手">4.2%</p>
+                            <p class="text-sm text-gray-600">互动率</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 图表对比区域 -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- 粉丝增长趋势图 -->
+            <div class="bg-white rounded-lg p-5 shadow-sm">
+                <h3 class="text-lg font-semibold mb-4">粉丝增长趋势 (近6个月)</h3>
+                <div class="h-80">
+                    <canvas id="followerGrowthChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 平台数据对比图 -->
+            <div class="bg-white rounded-lg p-5 shadow-sm">
+                <h3 class="text-lg font-semibold mb-4">平台核心数据对比</h3>
+                <div class="h-80">
+                    <canvas id="platformComparisonChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- 详细数据表格 -->
+        <section class="bg-white rounded-lg p-5 shadow-sm mb-8">
+            <h3 class="text-lg font-semibold mb-4">热门作品数据</h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">平台</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">作品标题</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">发布时间</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">播放量</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">点赞数</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">评论数</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">分享数</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr class="hover:bg-gray-50 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <i class="fa fa-play-circle-o text-抖音 mr-2"></i>
+                                    <span>抖音</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap max-w-xs truncate">创意短视频制作技巧分享</td>
+                            <td class="px-6 py-4 whitespace-nowrap">2023-05-28</td>
+                            <td class="px-6 py-4 whitespace-nowrap">1.2M</td>
+                            <td class="px-6 py-4 whitespace-nowrap">85.4K</td>
+                            <td class="px-6 py-4 whitespace-nowrap">12.3K</td>
+                            <td class="px-6 py-4 whitespace-nowrap">32.1K</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <i class="fa fa-weixin text-微信视频号 mr-2"></i>
+                                    <span>微信视频号</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap max-w-xs truncate">生活小妙招大全</td>
+                            <td class="px-6 py-4 whitespace-nowrap">2023-05-25</td>
+                            <td class="px-6 py-4 whitespace-nowrap">850K</td>
+                            <td class="px-6 py-4 whitespace-nowrap">42.8K</td>
+                            <td class="px-6 py-4 whitespace-nowrap">8.5K</td>
+                            <td class="px-6 py-4 whitespace-nowrap">45.2K</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <i class="fa fa-video-camera text-快手 mr-2"></i>
+                                    <span>快手</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap max-w-xs truncate">美食制作全过程</td>
+                            <td class="px-6 py-4 whitespace-nowrap">2023-05-22</td>
+                            <td class="px-6 py-4 whitespace-nowrap">980K</td>
+                            <td class="px-6 py-4 whitespace-nowrap">65.3K</td>
+                            <td class="px-6 py-4 whitespace-nowrap">9.8K</td>
+                            <td class="px-6 py-4 whitespace-nowrap">28.7K</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <i class="fa fa-play-circle-o text-抖音 mr-2"></i>
+                                    <span>抖音</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap max-w-xs truncate">旅行vlog：探索未知的风景</td>
+                            <td class="px-6 py-4 whitespace-nowrap">2023-05-20</td>
+                            <td class="px-6 py-4 whitespace-nowrap">750K</td>
+                            <td class="px-6 py-4 whitespace-nowrap">52.1K</td>
+                            <td class="px-6 py-4 whitespace-nowrap">7.3K</td>
+                            <td class="px-6 py-4 whitespace-nowrap">18.5K</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 互动数据分析 -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- 互动类型占比 -->
+            <div class="bg-white rounded-lg p-5 shadow-sm">
+                <h3 class="text-lg font-semibold mb-4">互动类型占比</h3>
+                <div class="h-64">
+                    <canvas id="interactionTypeChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 粉丝活跃度 -->
+            <div class="bg-white rounded-lg p-5 shadow-sm">
+                <h3 class="text-lg font-semibold mb-4">粉丝活跃度</h3>
+                <div class="h-64">
+                    <canvas id="fanActivityChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 内容分类占比 -->
+            <div class="bg-white rounded-lg p-5 shadow-sm">
+                <h3 class="text-lg font-semibold mb-4">内容分类占比</h3>
+                <div class="h-64">
+                    <canvas id="contentCategoryChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-primary text-white mt-10 py-6">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-sm">© 2023 社交媒体数据大屏. 保留所有权利.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-300 hover:text-white transition duration-200"><i class="fa fa-github"></i></a>
+                    <a href="#" class="text-gray-300 hover:text-white transition duration-200"><i class="fa fa-twitter"></i></a>
+                    <a href="#" class="text-gray-300 hover:text-white transition duration-200"><i class="fa fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 更新当前日期和时间
+        function updateDateTime() {
+            const now = new Date();
+            // 格式化日期
+            const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('zh-CN', dateOptions);
+            
+            // 格式化时间
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('zh-CN', timeOptions);
+        }
+        
+        // 初始化时更新一次，并设置定时器每秒更新
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        // 初始化所有图表
+        document.addEventListener('DOMContentLoaded', function() {
+            // 粉丝增长趋势图
+            const followerGrowthCtx = document.getElementById('followerGrowthChart').getContext('2d');
+            new Chart(followerGrowthCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+                    datasets: [
+                        {
+                            label: '抖音',
+                            data: [185000, 198000, 210000, 225000, 237000, 245000],
+                            borderColor: '#000000',
+                            backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: '微信视频号',
+                            data: [98000, 105000, 112000, 118000, 123000, 128000],
+                            borderColor: '#07C160',
+                            backgroundColor: 'rgba(7, 193, 96, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: '快手',
+                            data: [152000, 159000, 165000, 172000, 178000, 183000],
+                            borderColor: '#00C6FF',
+                            backgroundColor: 'rgba(0, 198, 255, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 平台数据对比图
+            const platformComparisonCtx = document.getElementById('platformComparisonChart').getContext('2d');
+            new Chart(platformComparisonCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['粉丝数', '月增长', '作品数', '平均播放量', '互动率'],
+                    datasets: [
+                        {
+                            label: '抖音',
+                            data: [245000, 12000, 186, 520000, 4.8],
+                            backgroundColor: '#000000'
+                        },
+                        {
+                            label: '微信视频号',
+                            data: [128000, 8000, 124, 380000, 3.5],
+                            backgroundColor: '#07C160'
+                        },
+                        {
+                            label: '快手',
+                            data: [183000, 9500, 215, 450000, 4.2],
+                            backgroundColor: '#00C6FF'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 互动类型占比图
+            const interactionTypeCtx = document.getElementById('interactionTypeChart').getContext('2d');
+            new Chart(interactionTypeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['点赞', '评论', '分享', '收藏'],
+                    datasets: [{
+                        data: [65, 15, 15, 5],
+                        backgroundColor: [
+                            '#0366d6',
+                            '#2ea44f',
+                            '#f9826c',
+                            '#6f42c1'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    cutout: '60%'
+                }
+            });
+
+            // 粉丝活跃度图
+            const fanActivityCtx = document.getElementById('fanActivityChart').getContext('2d');
+            new Chart(fanActivityCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                    datasets: [
+                        {
+                            label: '抖音',
+                            data: [65, 59, 80, 81, 56, 85, 90],
+                            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                            borderColor: '#000000',
+                            pointBackgroundColor: '#000000'
+                        },
+                        {
+                            label: '微信视频号',
+                            data: [28, 48, 40, 19, 86, 27, 50],
+                            backgroundColor: 'rgba(7, 193, 96, 0.2)',
+                            borderColor: '#07C160',
+                            pointBackgroundColor: '#07C160'
+                        },
+                        {
+                            label: '快手',
+                            data: [45, 25, 72, 52, 76, 60, 70],
+                            backgroundColor: 'rgba(0, 198, 255, 0.2)',
+                            borderColor: '#00C6FF',
+                            pointBackgroundColor: '#00C6FF'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: true
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    }
+                }
+            });
+
+            // 内容分类占比图
+            const contentCategoryCtx = document.getElementById('contentCategoryChart').getContext('2d');
+            new Chart(contentCategoryCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['教程', '生活', '美食', '旅行', '其他'],
+                    datasets: [{
+                        data: [35, 25, 20, 15, 5],
+                        backgroundColor: [
+                            '#00C6FF',
+                            '#07C160',
+                            '#f9826c',
+                            '#6f42c1',
+                            '#9CA3AF'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        });
+
+        // 添加卡片悬停动画效果
+        document.querySelectorAll('div[class*="bg-抖音"], div[class*="bg-微信视频号"], div[class*="bg-快手"]').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.classList.add('transform', 'scale-[1.02]');
+            });
+            card.addEventListener('mouseleave', function() {
+                this.classList.remove('transform', 'scale-[1.02]');
+            });
+        });
+    </script>
+</body>
+</html>
